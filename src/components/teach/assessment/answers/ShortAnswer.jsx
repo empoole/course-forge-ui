@@ -1,8 +1,18 @@
-// Teacher can set the word limit, but there is a hard cap so we don't get too crazy
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-const ShortAnswer = () => {
+const ShortAnswer = ({ onDataChange }) => {
   const [charLimit, setCharLimit] = useState(255);
+
+  const handleChange = (e) => {
+    setCharLimit(e.target.value);
+    onDataChange({
+      answerType: "short-answer",
+      answerData: {
+        charLimit: charLimit,
+      },
+    });
+  };
 
   return (
     <>
@@ -12,11 +22,15 @@ const ShortAnswer = () => {
         name="char-limit"
         id="char-limit"
         value={charLimit}
-        onChange={(e) => setCharLimit(e.target.value)}
+        onChange={handleChange}
         placeholder="Character limit"
       />
     </>
   );
+};
+
+ShortAnswer.propTypes = {
+  onDataChange: PropTypes.func.isRequired,
 };
 
 export default ShortAnswer;
